@@ -23,8 +23,8 @@ class TimerApp(App):
 	label = None
 	startButton = None
 	initButton = None
-	minusButton = None
-	minorButton = None
+	lessButton = None
+	moreButton = None
 	alive = 0
 	event = None
 
@@ -58,31 +58,31 @@ class TimerApp(App):
 			self.event.cancel()
 			obj.text = "START"
 			self.initButton.disabled=False
-			self.minorButton.disabled=False
-			self.minusButton.disabled=False
+			self.moreButton.disabled=False
+			self.lessButton.disabled=False
 			self.alive = 0
 		else:
 			obj.text = "STOP"
 			self.initButton.disabled=True
-			self.minorButton.disabled=True
-			self.minusButton.disabled=True
+			self.moreButton.disabled=True
+			self.lessButton.disabled=True
 			self.alive = 1
 			self.event = Clock.schedule_interval(lambda dt: self.update(self.label), interval)
 
 	def init_callback(self, obj):
 		Clock.schedule_once(lambda dt: self.click(), 0)
 		self.startButton.disabled=False
-		self.minorButton.disabled=False
-		self.minusButton.disabled=False		
+		self.moreButton.disabled=False
+		self.lessButton.disabled=False		
 		self.temps = defaultTime
 		self.set_label()
 
-	def minor_callback(self, obj):
+	def more_callback(self, obj):
 		Clock.schedule_once(lambda dt: self.click(), 0)
 		self.temps += 60
 		self.set_label()
 
-	def minus_callback(self, obj):
+	def less_callback(self, obj):
 		Clock.schedule_once(lambda dt: self.click(), 0)
 		if (self.temps - 60 > 0):
 			self.temps -= 60
@@ -136,17 +136,17 @@ class TimerApp(App):
 		self.initButton = Button(text="INIT", font_size=30, background_color=(1, 1, 1, .6))
 		self.initButton.bind(on_press=self.init_callback)
 
-		self.minusButton = Button(text="-", font_size=30, background_color=(1, 1, 1, .6))
-		self.minusButton.bind(on_press=self.minus_callback)
+		self.lessButton = Button(text="-", font_size=30, background_color=(1, 1, 1, .6))
+		self.lessButton.bind(on_press=self.less_callback)
 
-		self.minorButton = Button(text="+", font_size=30, background_color=(1, 1, 1, .6))
-		self.minorButton.bind(on_press=self.minor_callback)
+		self.moreButton = Button(text="+", font_size=30, background_color=(1, 1, 1, .6))
+		self.moreButton.bind(on_press=self.more_callback)
 
 		layout1.add_widget(self.label)
 		layout1.add_widget(layout2)
 		layout2.add_widget(self.startButton)
-		layout2.add_widget(self.minorButton)
-		layout2.add_widget(self.minusButton)
+		layout2.add_widget(self.moreButton)
+		layout2.add_widget(self.lessButton)
 		layout2.add_widget(self.initButton)
 
 		return layout1
